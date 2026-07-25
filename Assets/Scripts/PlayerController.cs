@@ -104,6 +104,11 @@ public class PlayerController : MonoBehaviour
         
         if (attackHitbox != null) attackHitbox.SetActive(true);
         if (animator != null) animator.SetTrigger("Slash");
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayAttackSound();
+        }
     }
 
     private void HandleAttacking()
@@ -154,6 +159,10 @@ public class PlayerController : MonoBehaviour
         {
             isInvincible = true;
             invincibilityTimer = gracePeriodDuration;
+            if (AudioManager.instance != null)
+            {
+                AudioManager.instance.PlayHeartLostSound();
+            }
 
             GameObject[] activeDinos = GameObject.FindGameObjectsWithTag("Dino");
             foreach (GameObject dino in activeDinos)

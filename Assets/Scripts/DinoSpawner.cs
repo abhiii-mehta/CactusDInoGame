@@ -96,5 +96,9 @@ public class DinoSpawner : MonoBehaviour
         
         // Save the newly spawned dino into our tracking variable
         lastSpawnedDino = Instantiate(dinoPrefabs[randomIndex], spawnPos, Quaternion.identity);
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayDinoSpawnSound();
+        }
     }
 }

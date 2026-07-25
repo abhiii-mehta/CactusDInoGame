@@ -113,6 +113,10 @@ public class GameManager : MonoBehaviour
 
         // Stop music on game over
         if (audioSequencePlayer != null) audioSequencePlayer.StopMusic();
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayGameOverSound();
+        }
     }
 
     public void RestartGame()
