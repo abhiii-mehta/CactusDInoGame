@@ -291,6 +291,7 @@ MonoBehaviour:
   gameplayHUD: {fileID: 1157346671}
   pausePanel: {fileID: 416879984}
   gameOverPanel: {fileID: 562833006}
+  audioSequencePlayer: {fileID: 13742348}
 --- !u!4 &13742346
 Transform:
   m_ObjectHideFlags: 0
@@ -423,6 +424,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8f356714bca331e4babe8bea4e22f376, type: 3}
   - {fileID: 8300000, guid: c14d011b46232e4448e9e71f9963c39e, type: 3}
   - {fileID: 8300000, guid: 85d686728e28d0b48bf2a0b70a7a6c0c, type: 3}
+  playerController: {fileID: 228763500}
 --- !u!1 &118321384
 GameObject:
   m_ObjectHideFlags: 0
@@ -1483,8 +1485,8 @@ Transform:
   m_GameObject: {fileID: 547936990}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.43890965, w: 0.8985312}
-  m_LocalPosition: {x: 0.021, y: 0.167, z: 0}
-  m_LocalScale: {x: 0.24355806, y: 0.023517272, z: 0.20157085}
+  m_LocalPosition: {x: 0.016543, y: 0.18873, z: 0}
+  m_LocalScale: {x: 0.29770803, y: 0.028745838, z: 0.24638586}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 228763502}
@@ -1548,14 +1550,14 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 1.1180027, y: 10.962662}
-      - {x: 0.5641774, y: 11.52957}
-      - {x: 0.31797272, y: 11.712035}
-      - {x: -0.027684033, y: 9.246147}
-      - {x: -0.21616988, y: 6.9472036}
-      - {x: -0.396907, y: 4.338291}
-      - {x: -0.4765897, y: 2.6340113}
-      - {x: -0.5, y: 0.5}
-      - {x: -0.50496864, y: -0.7559781}
+      - {x: 0.72384363, y: 13.651309}
+      - {x: 0.5074786, y: 13.917727}
+      - {x: -0.038811587, y: 12.015622}
+      - {x: -0.27650958, y: 11.250721}
+      - {x: -0.50609446, y: 8.305265}
+      - {x: -0.6938008, y: 5.686455}
+      - {x: -0.79001397, y: 2.2724252}
+      - {x: -0.8201527, y: -1.2976533}
       - {x: 0.5, y: -0.5}
       - {x: 1.0019867, y: 2.8824189}
       - {x: 1.4215344, y: 8.589818}

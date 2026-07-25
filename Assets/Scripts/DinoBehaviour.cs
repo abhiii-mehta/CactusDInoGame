@@ -12,27 +12,30 @@ public class DinoBehavior : MonoBehaviour
     public float runSpeed = 3f;
 
     [Header("Slime Jumper Settings")]
-    [Tooltip("The CONSTANT height the slime jumps (matches your single animation).")]
-    public float bounceForceY = 10f;
-    
-    [Tooltip("The slowest and fastest it can move left. This changes how far the arc reaches!")]
+    public float bounceForceY = 12f;
     public float minBounceSpeedX = 1.5f;
-    public float maxBounceSpeedX = 6f;
+    public float maxBounceSpeedX = 4f;
+
+    [Header("Animation")]
+    public Animator animator; // Drag your Animator component here
 
     private Rigidbody2D rb;
     private bool isDead = false;
-    
-    // Tracks how fast it should be moving on its current bounce
     private float currentSpeedX;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         
-        // Give the slime an initial random forward speed when it spawns
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
         if (typeOfDino == DinoType.SlimeJumper)
         {
             currentSpeedX = Random.Range(minBounceSpeedX, maxBounceSpeedX);
+            TriggerJump();
         }
     }
 
@@ -46,7 +49,6 @@ public class DinoBehavior : MonoBehaviour
         }
         else if (typeOfDino == DinoType.SlimeJumper)
         {
-            // Apply the current random forward speed, let physics handle gravity
             rb.linearVelocity = new Vector2(-currentSpeedX, rb.linearVelocity.y);
         }
     }
@@ -57,12 +59,21 @@ public class DinoBehavior : MonoBehaviour
 
         if (typeOfDino == DinoType.SlimeJumper && collision.gameObject.CompareTag("Ground"))
         {
-            // 1. Pick a new random forward distance for this specific bounce
             currentSpeedX = Random.Range(minBounceSpeedX, maxBounceSpeedX);
 
-            // 2. Reset the Y velocity to 0 first, then apply the EXACT SAME upward force
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
             rb.AddForce(Vector2.up * bounceForceY, ForceMode2D.Impulse);
+
+            // Trigger the jump animation fresh on every bounce!
+            TriggerJump();
+        }
+    }
+
+    private void TriggerJump()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("Jump");
         }
     }
 
@@ -71,7 +82,6 @@ public class DinoBehavior : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        // Tell the UI Manager to increase the score!
         if (UIManager.instance != null)
         {
             UIManager.instance.AddScore();
@@ -79,6 +89,7 @@ public class DinoBehavior : MonoBehaviour
 
         Destroy(gameObject);
     }
+
     void OnBecameInvisible()
     {
         if (!isDead) Destroy(gameObject);
