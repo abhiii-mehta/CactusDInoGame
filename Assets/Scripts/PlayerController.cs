@@ -133,7 +133,14 @@ public class PlayerController : MonoBehaviour
             TakeDamage();
         }
     }
-
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("FlameProjectile"))
+        {
+            TakeDamage();
+            Destroy(collision.gameObject); // Destroy the flame on impact
+        }
+    }
     private void TakeDamage()
     {
         if (isInvincible) return;

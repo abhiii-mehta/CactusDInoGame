@@ -5,7 +5,6 @@ public class SwordHitbox : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D other)
     {
-        // This tells us the hitbox is actually working and what it touched
         Debug.Log("SWORD TOUCHED: " + other.gameObject.name + " | Tag: " + other.tag);
 
         if (other.CompareTag("Dino"))
@@ -21,6 +20,12 @@ public class SwordHitbox : MonoBehaviour
             {
                 Debug.LogWarning("Found the Dino tag, but the DinoBehavior script is missing!");
             }
+        }
+        // SEPARATE CHECK FOR FLAME PROJECTILES
+        else if (other.CompareTag("FlameProjectile"))
+        {
+            Debug.Log("PROJECTILE PARRIED!");
+            Destroy(other.gameObject);
         }
     }
 }

@@ -4,7 +4,12 @@ using UnityEngine;
 public class DinoBehavior : MonoBehaviour
 {
     public enum DinoType { Runner, SlimeJumper }
-    
+    [Header("Runner Flame Settings")]
+    public GameObject flamePrefab;
+    public Transform firePoint;
+    public float shootDistance = 15f;
+    private bool hasFired = false;
+    private Transform playerTransform;
     [Header("Behavior Type")]
     public DinoType typeOfDino;
 
@@ -32,6 +37,13 @@ public class DinoBehavior : MonoBehaviour
             animator = GetComponent<Animator>();
         }
 
+        // FIND AND ASSIGN THE PLAYER TRANSFORM
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            playerTransform = playerObj.transform;
+        }
+
         if (typeOfDino == DinoType.SlimeJumper)
         {
             currentSpeedX = Random.Range(minBounceSpeedX, maxBounceSpeedX);
@@ -46,13 +58,29 @@ public class DinoBehavior : MonoBehaviour
         if (typeOfDino == DinoType.Runner)
         {
             rb.linearVelocity = new Vector2(-runSpeed, rb.linearVelocity.y);
+            if (!hasFired && playerTransform != null)
+            {
+                float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+                if (distanceToPlayer <= shootDistance)
+                {
+                    ShootFlame();
+                }
+            }
         }
         else if (typeOfDino == DinoType.SlimeJumper)
         {
             rb.linearVelocity = new Vector2(-currentSpeedX, rb.linearVelocity.y);
         }
     }
-
+    private void ShootFlame()
+    {
+        hasFired = true;
+        if (flamePrefab != null)
+        {
+            Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
+            Instantiate(flamePrefab, spawnPos, Quaternion.identity);
+        }
+    }
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (isDead) return;
