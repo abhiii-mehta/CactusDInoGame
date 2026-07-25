@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c5a72326477d7ec48a50c198eeaa5ace
+guid: d2bb8046b05bca5419fb06bf1c5eeb7e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4635035941797353172
-    second: BackgroundSolid_0
+      213: -4572191583020218466
+    second: C-action-4_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BackgroundSolid_0
+      name: C-action-4_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 640
-        height: 180
+        x: 10
+        y: 13
+        width: 47
+        height: 59
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4d6dfffa1a4f25040800000000000000
-      internalID: 4635035941797353172
+      spriteID: e978c01daff4c80c0800000000000000
+      internalID: -4572191583020218466
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BackgroundSolid_0: 4635035941797353172
+      C-action-4_0: -4572191583020218466
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
