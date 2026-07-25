@@ -132,7 +132,6 @@ public class PlayerController : MonoBehaviour
 
     private void TakeDamage()
     {
-        // If we are still in our 1-second grace period, ignore the hit completely!
         if (isInvincible) return;
 
         lives--;
@@ -145,15 +144,18 @@ public class PlayerController : MonoBehaviour
         if (lives <= 0)
         {
             Debug.Log("GAME OVER! No lives left.");
-            Time.timeScale = 0f; 
+            
+            // This triggers the Game Over panel via the GameManager
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.TriggerGameOver();
+            }
         }
         else
         {
-            // 1. Activate the Grace Period
             isInvincible = true;
             invincibilityTimer = gracePeriodDuration;
 
-            // 2. Wipe the board! Find every single Dino currently alive and destroy it.
             GameObject[] activeDinos = GameObject.FindGameObjectsWithTag("Dino");
             foreach (GameObject dino in activeDinos)
             {

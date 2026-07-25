@@ -33,6 +33,9 @@ public class DinoSpawner : MonoBehaviour
 
     void Update()
     {
+        // If time is frozen (game is paused or game over), don't update the spawn timer!
+        if (Time.timeScale == 0f) return;
+
         timer += Time.deltaTime;
         
         if (timer >= currentSpawnDelay)
@@ -42,7 +45,7 @@ public class DinoSpawner : MonoBehaviour
             {
                 SpawnDino();
                 SetNextSpawnTime();
-                timer = 0; // Reset timer only if we successfully spawned
+                timer = 0; // Reset timer only if we successfully spawned[cite: 1]
             }
         }
     }
