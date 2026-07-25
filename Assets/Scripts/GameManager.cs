@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
     public GameObject gameplayHUD;
     public GameObject pausePanel;
     public GameObject gameOverPanel;
-
+    [Header("Audio Reference")]
+    public AudioSequencePlayer audioSequencePlayer;
     private bool isGameStarted = false;
     private bool isPaused = false;
 
@@ -58,6 +59,11 @@ public class GameManager : MonoBehaviour
         if (gameplayHUD != null) gameplayHUD.SetActive(true);
         if (pausePanel != null) pausePanel.SetActive(false);
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
+
+        if (audioSequencePlayer != null)
+        {
+            audioSequencePlayer.StartGameplaySequence();
+        }
     }
 
     public void ExitGame()
@@ -67,11 +73,15 @@ public class GameManager : MonoBehaviour
     }
 
     // --- PAUSE MENU FLOW ---
+    // --- PAUSE MENU FLOW ---
     public void PauseGame()
     {
         isPaused = true;
         Time.timeScale = 0f;
         if (pausePanel != null) pausePanel.SetActive(true);
+
+        // Pause the audio
+        if (audioSequencePlayer != null) audioSequencePlayer.PauseMusic();
     }
 
     public void ResumeGame()
@@ -79,11 +89,18 @@ public class GameManager : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
         if (pausePanel != null) pausePanel.SetActive(false);
+
+        // Resume the audio
+        if (audioSequencePlayer != null) audioSequencePlayer.ResumeMusic();
     }
 
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1f;
+        
+        // Stop music when heading back to menu
+        if (audioSequencePlayer != null) audioSequencePlayer.StopMusic();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -93,11 +110,18 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         if (gameOverPanel != null) gameOverPanel.SetActive(true);
         if (gameplayHUD != null) gameplayHUD.SetActive(false);
+
+        // Stop music on game over
+        if (audioSequencePlayer != null) audioSequencePlayer.StopMusic();
     }
 
     public void RestartGame()
     {
         Time.timeScale = 1f;
+        
+        // Stop music before reloading scene so it triggers fresh from track 1
+        if (audioSequencePlayer != null) audioSequencePlayer.StopMusic();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

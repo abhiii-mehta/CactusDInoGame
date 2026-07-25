@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Audio")]
+    public AudioSequencePlayer audioSequencePlayer;
     [Header("Movement Settings")]
     public float[] speedLevels = new float[7] { 5f, 6f, 7.5f, 9f, 11f, 13f, 15f };
     public float timeToIncreaseSpeed = 10f;
@@ -31,11 +33,16 @@ public class PlayerController : MonoBehaviour
     private bool isInvincible = false;
     private float invincibilityTimer = 0f;
 
-    void Start()
+   void Start()
     {
         if (attackHitbox != null) attackHitbox.SetActive(false);
     }
-
+    public void SetSpeedTier(int tierIndex)
+    {
+        // Clamp it safely between 0 and the max speed level index (up to 6)
+        currentSpeedIndex = Mathf.Clamp(tierIndex, 0, speedLevels.Length - 1);
+        Debug.Log("Music shifted! Speed Tier is now: " + currentSpeedIndex);
+    }
     void Update()
     {
         HandleMovement();
@@ -69,15 +76,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleSpeedIncrease()
     {
-        if (currentSpeedIndex < speedLevels.Length - 1)
-        {
-            speedTimer += Time.deltaTime;
-            if (speedTimer >= timeToIncreaseSpeed)
-            {
-                currentSpeedIndex++;
-                speedTimer = 0f;
-            }
-        }
+        
     }
 
     // This helper lets the Jumper dinos know how fast we are moving!
@@ -163,4 +162,5 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    
 }
