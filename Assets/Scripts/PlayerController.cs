@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Health Settings")]
     public int lives = 3;
+    [Tooltip("How long the player is invincible after getting hit (in seconds).")]
+    public float gracePeriodDuration = 1f;
 
     [Header("Combat Settings")]
     public GameObject attackHitbox; 
@@ -25,6 +27,10 @@ public class PlayerController : MonoBehaviour
     private float currentCooldownTimer = 0f;
     private bool isAttacking = false;
 
+    // Grace period trackers
+    private bool isInvincible = false;
+    private float invincibilityTimer = 0f;
+
     void Start()
     {
         if (attackHitbox != null) attackHitbox.SetActive(false);
@@ -35,9 +41,20 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
         HandleSpeedIncrease();
         
+        // Tick down the attack cooldown
         if (currentCooldownTimer > 0)
         {
             currentCooldownTimer -= Time.deltaTime;
+        }
+
+        // Tick down the grace period invincibility
+        if (isInvincible)
+        {
+            invincibilityTimer -= Time.deltaTime;
+            if (invincibilityTimer <= 0f)
+            {
+                isInvincible = false;
+            }
         }
 
         HandleInput();
@@ -63,6 +80,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // This helper lets the Jumper dinos know how fast we are moving!
+    public float GetCurrentSpeed()
+    {
+        return speedLevels[currentSpeedIndex];
+    }
+
     private void HandleInput()
     {
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
@@ -80,7 +103,6 @@ public class PlayerController : MonoBehaviour
         attackTimer = attackDuration;
         currentCooldownTimer = slashCooldowns[currentSpeedIndex];
         
-        // Just turn on the large Polygon Collider!
         if (attackHitbox != null) attackHitbox.SetActive(true);
         if (animator != null) animator.SetTrigger("Slash");
     }
@@ -100,7 +122,6 @@ public class PlayerController : MonoBehaviour
 
     // --- DAMAGE LOGIC ---
     
-    // This triggers when the solid body of the Dino touches the solid body of the Player
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Dino"))
@@ -111,18 +132,33 @@ public class PlayerController : MonoBehaviour
 
     private void TakeDamage()
     {
+        // If we are still in our 1-second grace period, ignore the hit completely!
+        if (isInvincible) return;
+
         lives--;
-        Debug.Log("Dino killed you! Lives remaining: " + lives);
+        
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.UpdateLives(lives);
+        }
 
         if (lives <= 0)
         {
             Debug.Log("GAME OVER! No lives left.");
-            // Pauses the game immediately for debugging
             Time.timeScale = 0f; 
         }
-    }
-    public float GetCurrentSpeed()
-    {
-        return speedLevels[currentSpeedIndex];
+        else
+        {
+            // 1. Activate the Grace Period
+            isInvincible = true;
+            invincibilityTimer = gracePeriodDuration;
+
+            // 2. Wipe the board! Find every single Dino currently alive and destroy it.
+            GameObject[] activeDinos = GameObject.FindGameObjectsWithTag("Dino");
+            foreach (GameObject dino in activeDinos)
+            {
+                Destroy(dino);
+            }
+        }
     }
 }

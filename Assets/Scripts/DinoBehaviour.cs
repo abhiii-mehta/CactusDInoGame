@@ -70,9 +70,15 @@ public class DinoBehavior : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+
+        // Tell the UI Manager to increase the score!
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.AddScore();
+        }
+
         Destroy(gameObject);
     }
-
     void OnBecameInvisible()
     {
         if (!isDead) Destroy(gameObject);
